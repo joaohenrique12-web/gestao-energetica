@@ -38,7 +38,7 @@ CREATE TABLE EQUIPAMENTO (
                              SETOR_id_setor NUMBER NOT NULL,
                              nm_equipamento VARCHAR2(100) NOT NULL,
                              status VARCHAR2(10) NOT NULL,
-                             consumo_watts NUMBER NOT NULL,
+                             consumo_watts FLOAT(53) NOT NULL,
 
                              CONSTRAINT EQUIPAMENTO_SETOR_FK
                                  FOREIGN KEY (SETOR_id_setor)
@@ -57,7 +57,7 @@ CREATE TABLE CONSUMO_ENERGIA (
                                  id_consumo NUMBER PRIMARY KEY,
                                  EQUIPAMENTO_id_equipamento NUMBER NOT NULL,
                                  data_hora DATE NOT NULL,
-                                 consumo_kwh NUMBER NOT NULL,
+                                 consumo_kwh FLOAT(53) NOT NULL,
 
                                  CONSTRAINT CONSUMO_ENERGIA_EQUIPAMENTO_FK
                                      FOREIGN KEY (EQUIPAMENTO_id_equipamento)

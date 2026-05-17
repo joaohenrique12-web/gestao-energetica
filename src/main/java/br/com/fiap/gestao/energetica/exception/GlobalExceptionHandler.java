@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> metodo(HttpRequestMethodNotSupportedException exception){
+    public ResponseEntity<Map<String, String>> metodo(MethodArgumentNotValidException exception){
         Map<String, String> erro = new HashMap<>();
         erro.put("erro", "Método HTTP não permitido");
 
@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<Map<String, String>> geral(Exception exception){
+    public ResponseEntity<Map<String, String>> geral(HttpRequestMethodNotSupportedException exception){
         Map<String, String> erro = new HashMap<>();
         erro.put("erro", "Erro interno do servidor.");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(erro);
