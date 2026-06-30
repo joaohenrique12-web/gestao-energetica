@@ -13,21 +13,50 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SetorService {
+
     private final SetorRepository setorRepository;
     private final EmpresaRepository empresaRepository;
 
-    public List<Setor> listarSetores(){
+    public List<Setor> listarSetores() {
         return setorRepository.findAll();
     }
 
-    public Setor salvarSetor(SetorDTO setorDTO){
+    public Setor salvarSetor(SetorDTO setorDTO) {
+
         Empresa empresa = empresaRepository.findById(setorDTO.getIdEmpresa())
-                .orElseThrow(() -> new RuntimeException("Empresa não encontrada!"));
+                .orElseThrow(() ->
+                        new RuntimeException("Empresa não encontrada!"));
 
         Setor setor = new Setor();
+
         setor.setNomeSetor(setorDTO.getNomeSetor());
         setor.setEmpresa(empresa);
 
         return setorRepository.save(setor);
+    }
+
+    public Setor atualizarSetor(Long id, SetorDTO setorDTO) {
+
+        Setor setor = setorRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Setor não encontrado!"));
+
+        Empresa empresa = empresaRepository.findById(setorDTO.getIdEmpresa())
+                .orElseThrow(() ->
+                        new RuntimeException("Empresa não encontrada!"));
+
+        setor.setNomeSetor(setorDTO.getNomeSetor());
+        setor.setEmpresa(empresa);
+
+        return setorRepository.save(setor);
+    }
+
+    public void deletarSetor(Long id) {
+
+        Setor setor = setorRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Setor não encontrado!"));
+
+        setorRepository.delete(setor);
     }
 }
