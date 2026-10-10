@@ -107,24 +107,4 @@ mvn test
 - Docker Compose
 - GitHub Actions
 
-## Prints do funcionamento
 
-Inclua aqui prints de:
-
-- aplicacao rodando localmente;
-- Swagger aberto;
-- `mvn test` executado com sucesso;
-- Docker Compose executando;
-- workflow do GitHub Actions com build, testes e deploy staging/producao.
-
-## Checklist de entrega
-
-| Item | OK |
-| --- | --- |
-| Projeto compactado em ZIP com estrutura organizada | ☐ |
-| Dockerfile funcional | ☐ |
-| docker-compose.yml ou arquivos Kubernetes | ☐ |
-| Pipeline com etapas de build, teste e deploy | ☐ |
-| README.md com instrucoes e prints | ☐ |
-| Documentacao tecnica com evidencias em PDF ou PPT | ☐ |
-| Deploy realizado nos ambientes staging e producao | ☐ |
