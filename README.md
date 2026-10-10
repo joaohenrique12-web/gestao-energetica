@@ -20,7 +20,11 @@ Crie um arquivo `.env` a partir do exemplo:
 
 ```bash
 cp .env.example .env
-Preencha as variáveis no arquivo .env:
+```
+
+Preencha as variáveis no arquivo `.env`:
+
+```env
 DATASOURCE_URL=jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
 DATASOURCE_USERNAME=seu_usuario_oracle
 DATASOURCE_PASSWORD=sua_senha_oracle
@@ -29,92 +33,162 @@ APP_ADMIN_PASSWORD=sua_senha_admin
 JWT_SECRET=seu_segredo
 SERVER_PORT=8081
 SPRING_PROFILES_ACTIVE=local
-O arquivo .env não deve ser enviado para o GitHub, pois contém credenciais reais. Apenas o .env.example deve ser versionado.
-Executar com Docker Compose
-Com o .env preenchido, execute:
+```
+
+O arquivo `.env` não deve ser enviado para o GitHub, pois contém credenciais reais. Apenas o `.env.example` deve ser versionado.
+
+### Executar com Docker Compose
+
+Com o `.env` preenchido, execute:
+
+```bash
 docker compose up --build
+```
+
 A API ficará disponível em:
+
+```text
 http://localhost:8081
+```
+
 Swagger:
+
+```text
 http://localhost:8081/swagger-ui/index.html
-Executar localmente com Maven
+```
+
+### Executar localmente com Maven
+
 Também é possível executar a aplicação com Maven:
+
+```bash
 mvn spring-boot:run "-Dspring-boot.run.arguments=--server.port=8081"
-Pipeline CI/CD
+```
+
+## Pipeline CI/CD
+
 O pipeline foi implementado com GitHub Actions no arquivo:
+
+```text
 .github/workflows/ci-cd.yml
+```
+
 O pipeline executa:
+
 - checkout do código;
 - configuração do Java 21;
 - cache das dependências Maven;
-- execução dos testes com mvn test;
-- empacotamento da aplicação com mvn package;
+- execução dos testes com `mvn test`;
+- empacotamento da aplicação com `mvn package`;
 - build da imagem Docker;
 - deploy simulado para staging ou produção.
-Ambientes do pipeline
+
+### Ambientes do pipeline
+
 O pipeline separa os ambientes por branch:
-- develop: executa o deploy de staging.
-- main ou master: executa o deploy de produção.
-Para uma entrega real, os ambientes staging e production devem receber secrets próprios no GitHub Actions, como:
+
+- `develop`: executa o deploy de staging.
+- `main` ou `master`: executa o deploy de produção.
+
+Para uma entrega real, os ambientes `staging` e `production` devem receber secrets próprios no GitHub Actions, como:
+
+```text
 DATASOURCE_URL
 DATASOURCE_USERNAME
 DATASOURCE_PASSWORD
 APP_ADMIN_PASSWORD
 JWT_SECRET
-Containerização
-O Dockerfile usa build multi-stage:
-- primeiro estágio: Maven com Java 21 para compilar e gerar o .jar;
+```
+
+## Containerização
+
+O `Dockerfile` usa build multi-stage:
+
+- primeiro estágio: Maven com Java 21 para compilar e gerar o `.jar`;
 - segundo estágio: imagem Java 21 JRE para executar a aplicação.
-Essa estratégia evita depender de um arquivo target/*.jar previamente gerado na máquina local.
-Docker Compose
-O projeto possui arquivo compose.yaml para orquestrar a aplicação.
+
+Essa estratégia evita depender de um arquivo `target/*.jar` previamente gerado na máquina local.
+
+## Docker Compose
+
+O projeto possui arquivo `compose.yaml` para orquestrar a aplicação.
+
 Ele configura:
+
 - serviço da API;
 - build a partir do Dockerfile;
-- porta externa 8081 apontando para a porta interna 8080;
+- porta externa `8081` apontando para a porta interna `8080`;
 - variáveis de ambiente;
 - rede Docker dedicada;
 - healthcheck do container.
+
 Comando principal:
+
+```bash
 docker compose up --build
+```
+
 Comando para validar a configuração:
+
+```bash
 docker compose --env-file .env.example config
-Ambientes
+```
+
+## Ambientes
+
 Arquivos de configuração:
-- application.properties: configuração base por variáveis de ambiente;
-- application-local.properties: ajustes locais;
-- application-staging.properties: ajustes para homologação;
-- application-prod.properties: ajustes para produção;
-- application-test.properties: configuração de testes com H2 em memória.
-Testes
-Os testes usam o profile test, com banco H2 em memória. Assim, o comando abaixo não depende do Oracle remoto:
+
+- `application.properties`: configuração base por variáveis de ambiente;
+- `application-local.properties`: ajustes locais;
+- `application-staging.properties`: ajustes para homologação;
+- `application-prod.properties`: ajustes para produção;
+- `application-test.properties`: configuração de testes com H2 em memória.
+
+## Testes
+
+Os testes usam o profile `test`, com banco H2 em memória. Assim, o comando abaixo não depende do Oracle remoto:
+
+```bash
 mvn test
+```
+
 Foram adicionados testes para:
-- ApplicationTests
-- EmpresaServiceTest
-- EquipamentoServiceTest
-- SetorServiceTest
-- ConsumoServiceTest
-- AlertaServiceTest
+
+- `ApplicationTests`
+- `EmpresaServiceTest`
+- `EquipamentoServiceTest`
+- `SetorServiceTest`
+- `ConsumoServiceTest`
+- `AlertaServiceTest`
+
 Resultado esperado:
+
+```text
 Tests run: 17, Failures: 0, Errors: 0, Skipped: 0
 BUILD SUCCESS
-Prints do funcionamento
+```
+
+## Prints do funcionamento
+
 As evidências foram incluídas na documentação técnica em PPTX/PDF.
+
 Foram registrados prints de:
+
 - GitHub Actions executando o pipeline;
 - build e testes no pipeline;
 - deploy de staging;
 - deploy de produção;
-- mvn test com testes aprovados;
-- mvn package -DskipTests com build aprovado;
-- docker compose up --build;
-- container em execução com docker ps;
-- Swagger aberto em localhost:8081;
-- endpoint GET /empresas;
-- endpoint GET /equipamentos;
-- endpoint GET /alertas/recentes.
-Tecnologias utilizadas
+- `mvn test` com testes aprovados;
+- `mvn package -DskipTests` com build aprovado;
+- `docker compose up --build`;
+- container em execução com `docker ps`;
+- Swagger aberto em `localhost:8081`;
+- endpoint `GET /empresas`;
+- endpoint `GET /equipamentos`;
+- endpoint `GET /alertas/recentes`.
+
+## Tecnologias utilizadas
+
 - Java 21
 - Spring Boot
 - Spring Web
@@ -129,7 +203,9 @@ Tecnologias utilizadas
 - Docker
 - Docker Compose
 - GitHub Actions
-Checklist de entrega
+
+## Checklist de entrega
+
 - [x] Projeto compactado em ZIP com estrutura organizada
 - [x] Dockerfile funcional
 - [x] Docker Compose configurado
@@ -137,13 +213,21 @@ Checklist de entrega
 - [x] README.md com instruções e evidências
 - [x] Documentação técnica com evidências em PPTX/PDF
 - [x] Deploy realizado nos ambientes staging e produção
-Observações para entrega
+
+## Observações para entrega
+
 Antes de compactar o projeto, não incluir:
+
+```text
 .env
 target/
 .idea/
 .git/
+```
+
 O ZIP final deve conter:
+
+```text
 Dockerfile
 compose.yaml ou docker-compose.yml
 src/
@@ -152,3 +236,4 @@ README.md
 .github/workflows/
 pom.xml
 documentação técnica em PPTX ou PDF
+```
