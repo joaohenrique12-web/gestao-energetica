@@ -38,14 +38,11 @@ Thumbs.db
 # Environment
 .env
 .env.*
+!.env.example
 
-# Spring Boot
-application-local.properties
-application-dev.properties
-application-prod.properties
-
-#Exceções (arquivos que devem ser versionados)
+# Exceções (arquivos que devem ser versionados)
 !**/main/resources/application.properties
+!**/main/resources/application-*.properties
 !**/main/resources/db/migration/V1__init.sql
 
 ### VS Code ###
